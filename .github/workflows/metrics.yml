@@ -1,0 +1,30 @@
+name: Metrics
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+jobs:
+  metrics:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: lowlighter/metrics@latest
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: assets/metrics.svg
+          template: classic
+          base: header, repositories
+          config_timezone: Asia/Jakarta
+          plugin_languages: yes
+          plugin_languages_limit: 6
+          plugin_languages_details: percentage
+          plugin_languages_ignored: html, css, dockerfile, makefile, shell
+          plugin_followup: yes
+          plugin_followup_sections: repositories
+          commits_authoring: ZeroAgentic
+          output_action: commit
+          committer_branch: main
+          committer_message: "chore: update metrics"
